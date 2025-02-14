@@ -1,0 +1,11 @@
+{
+  "name": "auth_and_management_of_users",
+  "version": "1.0.0",
+  "description": "Microservice for auth and management of users with fastify",
+  "main": "index.js",
+  "dependencies": {
+    "fastify": "^5.2.1"
+  },
+  "author": "TRIYAN-SALAZAR",
+  "license": "ISC"
+}
