@@ -5,9 +5,9 @@
 /dist
 
 # Environment variables
-.env
 /.env
-/.env.local
+.env
+*.env
 
 # Logs
 logs
@@ -27,5 +27,3 @@ Thumbs.db
 *.ntvs*
 *.njsproj
 *.sln
-
-.ENV
