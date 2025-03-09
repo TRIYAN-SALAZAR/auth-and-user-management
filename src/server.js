@@ -1,11 +1,12 @@
-import fastify from "fastify"
+'use strict';
+import fastify from "fastify";
 
-const server = fastify({logger: true})
+const server = fastify({logger: true});
 
 
 server.get("/", async (request, reply) => {
     reply.send({message: "Hello World", version: "1.0.0", author: "TRIYAN-SALAZAR", description: "API REST con Fastify"})
-})
+});
 
 server.listen({port: 3000}, (err, address) => {
     if (err) {
@@ -14,8 +15,8 @@ server.listen({port: 3000}, (err, address) => {
     }
     
     console.log(`Server listening on ${address}`)
-})
+});
 
 // testing commit with sign 2.0
 
-export default server
+export default server;
