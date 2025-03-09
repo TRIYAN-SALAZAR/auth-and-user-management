@@ -1,7 +1,7 @@
 'use strict';
 
-import User from '../models/user';
-import jwt from '../utils/jwt';
+import User from '../schemas/userShema.js';
+import jwt from '../utils/jwt.js';
 
 async function login(email, password) {
     const user = await User.findOne({ where: { email } });

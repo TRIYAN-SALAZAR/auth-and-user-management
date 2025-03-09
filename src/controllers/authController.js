@@ -10,4 +10,4 @@ async function register(request, reply) {
     reply.send({ message: "Auth register" });
 }
 
-module.exports = { login, register };
+export default { login, register };

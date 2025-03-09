@@ -2,7 +2,7 @@
 
 import fastifyPlugin from 'fastify-plugin';
 import { Sequelize } from 'sequelize';
-import User from '../schemas/userSchema.js';
+import User from '../schemas/userShema.js';
 
 async function dbConnector(fastify, options) {
     const sequelize = new Sequelize({
