@@ -2,12 +2,14 @@
 
 import authService from '../services/authService.js';
 
-async function login(request, reply) {
+const { login, registerEmail } = authService;
+
+async function loginController(request, reply) {
     reply.send({ message: "Auth login" });
 }
 
-async function register(request, reply) {
+async function registerController(request, reply) {
     reply.send({ message: "Auth register" });
 }
 
-export default { login, register };
+export default { loginController, registerController };
