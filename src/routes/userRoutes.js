@@ -2,7 +2,7 @@
 
 import userController from '../controllers/userController.js';
 
-async function userRoute(fastify, options) {
+function userRoute(fastify, options) {
     fastify.put('/change-password', userController.changePasswordController);
     fastify.put('/change-email', userController.changeEmailController);
     fastify.put('/change-name', userController.changeNameController);
