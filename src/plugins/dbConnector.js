@@ -7,10 +7,11 @@ import User from '../schemas/userShema.js';
 async function dbConnector(fastify, options) {
     const sequelize = new Sequelize({
         dialect: 'postgres',
-        host: process.env.DB_ADSRESS || 'localhost',
+        host: process.env.DB_ADDRESS || 'localhost',
+        port: process.env.DE_PORT || 5432,
         username: process.env.DB_USER || 'postgres',
         password: process.env.PASSWORD || 'password',
-        database: process.env.DATABASE || 'users',
+        database: process.env.DB_NAME || 'users',
     });
 
     try {
