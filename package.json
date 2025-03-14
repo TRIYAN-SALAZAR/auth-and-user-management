@@ -4,6 +4,7 @@
   "description": "Microservice for auth and management of users with fastify",
   "main": "index.js",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "fastify": "^5.2.1",
     "fastify-cli": "^7.3.0",
     "jest": "^29.7.0",
