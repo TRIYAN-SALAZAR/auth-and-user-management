@@ -5,24 +5,25 @@ import { Sequelize } from 'sequelize';
 import User from '../schemas/userShema.js';
 
 async function dbConnector(fastify, options) {
+    console.log('\n', fastify.config, '\n');
     const sequelize = new Sequelize({
         dialect: 'postgres',
-        host: process.env.DB_ADDRESS || 'localhost',
-        port: process.env.DE_PORT || 5432,
-        username: process.env.DB_USER || 'postgres',
-        password: process.env.PASSWORD || 'password',
-        database: process.env.DB_NAME || 'users',
+        host: fastify.config.DB_ADDRESS,
+        port: fastify.config.DB_PORT,
+        username: fastify.config.DB_USER,
+        password: fastify.config.DB_PASSWORD,
+        database: fastify.config.DB_NAME,
     });
-
     try {
         await sequelize.authenticate();
         fastify.decorate('sequelize', sequelize);
         fastify.decorate('schemas', {
             User: User(sequelize),
         });
-        console.log('Connection has been established successfully.');
+        fastify.log.info('\nConnection has been established successfully.');
     } catch (error) {
-        fastify.log.error('Unable to connect to the database:', error);
+        fastify.log.error('Unable to connect to the database:');
+        console.error(error);
     }
 }
 
