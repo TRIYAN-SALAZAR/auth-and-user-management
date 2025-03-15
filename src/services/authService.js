@@ -12,7 +12,7 @@ async function login(email, password) {
 
     if(!user || !Hash.checkHashToPassword(password, hash)) throw new Error('Invalid email or password');
 
-    return jwt.sign({ id: user.id });
+    return jwt.sign({ id: user.id }); 
 }
 
 async function registerEmail(dataUser) {
