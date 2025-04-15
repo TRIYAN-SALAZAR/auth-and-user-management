@@ -1,7 +1,7 @@
 'use strict';
 
-import User from '../schemas/userShema.js';
-import jwt from '../utils/jwt.js';
+import User from '../../schemas/userShema.js';
+import jwt from '../../utils/jwt.js';
 
 async function changePassword(id, password) {
     try {
