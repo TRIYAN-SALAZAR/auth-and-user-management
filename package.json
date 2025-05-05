@@ -1,9 +1,11 @@
 {
   "name": "auth_and_management_of_users",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Microservice for auth and management of users with fastify",
   "main": "index.js",
   "dependencies": {
+    "@fastify/auth": "^5.0.2",
+    "@fastify/basic-auth": "^6.1.0",
     "@fastify/env": "^5.0.2",
     "bcryptjs": "^3.0.2",
     "fastify": "^5.2.1",

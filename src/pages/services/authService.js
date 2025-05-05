@@ -1,9 +1,9 @@
 'use strict';
 
-import User from '../schemas/userShema.js';
-import jwt from '../utils/jwt.js';
-import IDs from '../utils/idGenerate.js';
-import Hash from '../utils/hash.js';
+import User from '../../schemas/userShema.js';
+import jwt from '../../utils/jwt.js';
+import IDs from '../../utils/idGenerate.js';
+import Hash from '../../utils/hash.js';
 
 async function login(email, password) {
     try {
