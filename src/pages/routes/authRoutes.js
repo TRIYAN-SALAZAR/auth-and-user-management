@@ -15,9 +15,9 @@ const opts = {
     }
 }
 
-function authRoute(fastify, options) {
+function authRoutes(fastify, options) {
     fastify.post('/login', opts,  authController.loginController);
     fastify.post('/register', opts, authController.registerController);
 }
 
-export default authRoute;
+export default authRoutes;

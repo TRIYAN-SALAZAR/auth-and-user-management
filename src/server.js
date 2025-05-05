@@ -3,7 +3,7 @@
 import fastify from "fastify";
 import fastifyEnv from "@fastify/env";
 import dbConnector from "./plugins/dbConnector.js";
-import authRoutes from "./routes/authRoutes.js";
+import authRoutes from "./pages/routes/userRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 const envPath = './src/.env';
