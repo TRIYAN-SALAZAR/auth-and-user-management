@@ -40,6 +40,8 @@ await server.register(authRoutes);
 
 await server.ready();
 
+const UserSchema = server.schemas.User(server.sequelize);
+
 async function start() {
     server.listen({ port: 3000 }, (err, address) => {
         if (err) {
@@ -51,3 +53,5 @@ async function start() {
 }
 
 start();
+
+export { UserSchema };

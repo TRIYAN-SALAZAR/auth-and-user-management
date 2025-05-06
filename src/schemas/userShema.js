@@ -5,9 +5,11 @@ import { DataTypes } from "sequelize";
 function User(sequelize) {
     const User = sequelize.define('User', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
-            unique: true
+            unique: true,
+            allowNull: false
         },
         first_name: {
             type: DataTypes.STRING,
@@ -19,17 +21,19 @@ function User(sequelize) {
         },
         age: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         email: {
             type: DataTypes.HSTORE,
             allowNull: false,
-            unique: true
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false
         }
+    }, {
+        tableName: 'Users',
+        timestamps: false
     });
 
     return User;
