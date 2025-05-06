@@ -1,0 +1,71 @@
+{
+    "users": [
+        {
+            "first_name": "Triyan",
+            "last_name": "Salazar",
+            "age": 20,
+            "email": "first_example@gmail.com",
+            "password": ""
+        },
+        {
+            "first_name": "Saul",
+            "last_name": "Guerrero",
+            "age": 90,
+            "email": "second_example@gmail.com",
+            "password": ""
+        },
+        {
+            "first_name": "Oscar",
+            "last_name": "Suarez",
+            "age": 23,
+            "email": "third_example@gmail.com",
+            "password": ""
+        },
+        {
+            "first_name": "Sofia",
+            "last_name": "Torres",
+            "age": 14,
+            "email": "fourth_example@gmail.com"
+        },
+        {
+            "first_name": "Alondra",
+            "last_name": "Luevano",
+            "age": 21,
+            "email": "fifth_example@gmail.com",
+            "password": ""
+        },
+        {
+            "first_name": "Sandra",
+            "last_name": "Torres",
+            "age": 20,
+            "email": "sixth_example@gmail.com",
+            "password": ""
+        },
+        {
+            "first_name": "Ximena",
+            "last_name": "Garcia",
+            "age": 30,
+            "email": ""
+        },
+        {
+            "first_name": "Juan",
+            "last_name": "Perez",
+            "age": 40,
+            "email": "seventh_example@gmail.com",
+            "password": ""
+        },
+        {
+            "first_name": "Luis",
+            "last_name": "Martinez",
+            "age": 50,
+            "email": "eighth_example@gmail.com",
+            "password": ""
+        },
+        {
+            "first_name": "Maria",
+            "last_name": "Lopez",
+            "age": 60,
+            "email": "ninth_example@gmail.com"
+        }
+    ]
+}

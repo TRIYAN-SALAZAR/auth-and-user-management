@@ -1,16 +1,9 @@
 'use strict';
 
-function generate() {
-    const timestamp = new Date().getTime();
-    const random = Math.floor(Math.random() * 1000);
-    const complement = Math.floor(Math.random() * 10);
-    
-    let id = `${timestamp}${random}`;
-    while(id.length < 16) {
-        id = id + complement;
-    }
+import { v4 as uuidv4 } from 'uuid';
 
-    return parseInt(id);
+function generateID() {
+    return uuidv4()
 }
 
-export default {generate};
+export { generateID };

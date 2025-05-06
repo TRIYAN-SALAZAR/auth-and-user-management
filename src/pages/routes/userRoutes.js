@@ -8,6 +8,7 @@ function userRoute(fastify, options) {
     fastify.put('/change-name', userController.changeNameController);
     fastify.put('/change-profile-picture', userController.changeProfilePictureController);
     fastify.get('/data', userController.getDataUserController);
+    fastify.post('/seed', userController.postLoadDataUsers);
 }
 
 export default userRoute;

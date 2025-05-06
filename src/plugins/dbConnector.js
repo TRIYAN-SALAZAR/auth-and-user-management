@@ -6,13 +6,16 @@ import User from '../schemas/userShema.js';
 
 async function dbConnector(fastify, options) {
 
-    const sequelize = new Sequelize( fastify.config.POSTGRES_URL, {
+    const sequelize = new Sequelize(fastify.config.POSTGRES_URL, {
         dialect: 'postgres',
         dialectOptions: {
-            ssl: true,
-            rejectUnauthorized: false
+            ssl: {
+                require: true,
+                rejectUnauthorized: false, // <- Esto permite certificados autofirmados
+            }
         }
     });
+
     try {
         fastify.decorate('sequelize', sequelize);
         fastify.decorate('schemas', {

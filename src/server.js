@@ -3,8 +3,8 @@
 import fastify from "fastify";
 import fastifyEnv from "@fastify/env";
 import dbConnector from "./plugins/dbConnector.js";
-import authRoutes from "./pages/routes/userRoutes.js";
-// import userRoute from "./pages/routes/userRoutes.js";
+import authRoutes from "./pages/routes/authRoutes.js";
+import userRoute from "./pages/routes/userRoutes.js";
 
 const envPath = './.env';
 const server = fastify({ logger: true });
@@ -36,7 +36,7 @@ server.register(fastifyEnv, options)
 
 await server.register(dbConnector);
 await server.register(authRoutes);
-// await server.register(userRoute);
+await server.register(userRoute);
 
 await server.ready();
 
