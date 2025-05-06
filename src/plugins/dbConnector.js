@@ -16,7 +16,7 @@ async function dbConnector(fastify, options) {
     try {
         fastify.decorate('sequelize', sequelize);
         fastify.decorate('schemas', {
-            User: User(sequelize),
+            User,
         });
         fastify.log.info('\nConnection has been established successfully.');
     } catch (error) {
