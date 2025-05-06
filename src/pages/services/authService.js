@@ -1,6 +1,6 @@
 'use strict';
 
-import UserSchema from '../../server.js';
+import { UserSchema } from '../../server.js';
 import jwt from '../../utils/jwt.js';
 import IDs from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
