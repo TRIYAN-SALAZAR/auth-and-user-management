@@ -2,19 +2,24 @@
 
 import fastify from "fastify";
 import fastifyEnv from "@fastify/env";
-// import dbConnector from "./plugins/dbConnector.js";
+import dbConnector from "./plugins/dbConnector.js";
 import authRoutes from "./pages/routes/userRoutes.js";
 // import userRoute from "./pages/routes/userRoutes.js";
 
-const envPath = './src/.env';
+const envPath = './.env';
 const server = fastify({ logger: true });
-const schema = {
-    type: 'object'
+const schemaENV = {
+    type: 'object',
+    required: ['POSTGRES_URL'],
+    properties: {
+        POSTGRES_URL: { type: 'string' }
+    }
+
 };
 
 const options = {
     confKey: 'config',
-    schema,
+    schema: schemaENV,
     dotenv: {
         path: envPath
     }
@@ -29,7 +34,7 @@ server.register(fastifyEnv, options)
         console.log('------------------------------------');
     });
 
-// await server.register(dbConnector);
+await server.register(dbConnector);
 await server.register(authRoutes);
 // await server.register(userRoute);
 
