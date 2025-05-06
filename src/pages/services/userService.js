@@ -2,6 +2,9 @@
 
 import User from '../../schemas/userShema.js';
 import jwt from '../../utils/jwt.js';
+import ObtainSeedData from '../../tests/seed/obtainData.js';
+import IDs from '../../utils/idGenerate.js';
+import { hashPassword } from '../../utils/hash.js';
 
 async function changePassword(id, password) {
     try {
@@ -77,26 +80,45 @@ async function changeProfilePicture(id, profilePicture) {
     }
 }
 
-    async function getDataUser(id, data) {
-        try {
-            const user = await User.findOne({ where: { id } });
-            if (!user) {
-                throw new Error('User not found');
-            }
-            const {first_name, last_name, age} = data;
-
-            user.first_name = first_name;
-            user.last_name = last_name;
-            user.age = age;
-
-            await user.save();
-            return { message: 'User data updated successfully' };
-        } catch (error) {
-            if (error.message === 'User not found') {
-                return { error: error.message };
-            }
-            console.error(error);
+async function getDataUser(id, data) {
+    try {
+        const user = await User.findOne({ where: { id } });
+        if (!user) {
+            throw new Error('User not found');
         }
-    }
+        const { first_name, last_name, age } = data;
 
-    export default { changePassword, changeEmail, changeName, changeProfilePicture, getDataUser }
+        user.first_name = first_name;
+        user.last_name = last_name;
+        user.age = age;
+
+        await user.save();
+        return { message: 'User data updated successfully' };
+    } catch (error) {
+        if (error.message === 'User not found') {
+            return { error: error.message };
+        }
+        console.error(error);
+    }
+}
+
+async function loadSeedOfUsers() {
+    try {
+        const USER_DATA = await ObtainSeedData();
+        USER_DATA.forEach(async (user) => {
+            await UserSchema.create({
+                id: IDs(),
+                first_name: user.first_name,
+                last_name: user.last_name,
+                age: user.age,
+                email: user.email,
+                password: hashPassword('123456')
+            });
+        });
+    } catch(error) {
+        console.error('Error loading seed data:', error);
+        throw new Error('Error loading seed data: ' + error.message);
+    }
+}
+
+export default { changePassword, changeEmail, changeName, changeProfilePicture, getDataUser, loadSeedOfUsers }
