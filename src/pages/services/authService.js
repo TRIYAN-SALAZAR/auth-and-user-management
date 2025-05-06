@@ -2,7 +2,7 @@
 
 import { UserSchema } from '../../server.js';
 import jwt from '../../utils/jwt.js';
-import IDs from '../../utils/idGenerate.js';
+import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
 
 async function login(email, password) {
@@ -27,7 +27,7 @@ async function registerEmail(dataUser) {
     try {
         const { email, password, firstName, lastName, age } = dataUser;
         const hash = Hash.hashPassword(password);
-        const id = IDs.generate();
+        const id = generateID();
         const user = await UserSchema.create({ id, email, password: hash, first_name: firstName, last_name: lastName, age });
 
         return jwt.sign({ id: user.id });
