@@ -24,7 +24,7 @@ function User(sequelize) {
             allowNull: true
         },
         email: {
-            type: DataTypes.HSTORE,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         password: {
