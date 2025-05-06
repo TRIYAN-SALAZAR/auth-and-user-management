@@ -1,0 +1,11 @@
+{
+    "users": [
+        {
+            "first_name": "Jorge",
+            "last_name": "Ozuna",
+            "age": 20,
+            "email": "first_example@gmail.com",
+            "password": ""
+        }
+    ]
+}
