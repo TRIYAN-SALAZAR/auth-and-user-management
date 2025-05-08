@@ -18,7 +18,7 @@ import { join } from 'path';
  * @example
  * ObtainSeedData()
  *   .then(data => console.log(data))
- *   .catch(error => console.error('Failed to load seed data:', error));
+ *   .catch(error => console.error(error));
  */
 async function ObtainSeedData() {
     try {
@@ -29,7 +29,7 @@ async function ObtainSeedData() {
 
         return parsedData.users;
     } catch (error) {
-        throw new Error('Error reading seed data: ' + error.message);
+        return {messageError: "Error reading seed data", error: error.message}
     }
 }
 
