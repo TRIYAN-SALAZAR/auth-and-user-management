@@ -102,6 +102,16 @@ async function getDataUser(id, data) {
     }
 }
 
+async function obtainUsers() {
+    try {
+        const users = await UserSchema.findAll({attributes: ['id', 'first_name', 'last_name', 'age']});
+
+        return users.map(user => user.dataValues);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 async function loadSeedOfUsers() {
     try {
         const USER_DATA = await ObtainSeedData();
@@ -117,11 +127,19 @@ async function loadSeedOfUsers() {
         });
 
         return USER_DATA;
-    } catch(error) {
+    } catch (error) {
         console.error('----------------------------\n')
         console.error('Error loading seed data:', error.message);
         throw new Error('Error loading seed data: ' + error.message);
     }
 }
 
-export default { changePassword, changeEmail, changeName, changeProfilePicture, getDataUser, loadSeedOfUsers }
+export default {
+    changePassword,
+    changeEmail,
+    changeName,
+    changeProfilePicture,
+    getDataUser,
+    loadSeedOfUsers,
+    obtainUsers
+}
