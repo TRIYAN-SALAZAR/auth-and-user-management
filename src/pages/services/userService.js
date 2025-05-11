@@ -8,19 +8,37 @@ import { UserSchema } from '../../server.js';
 
 async function changePassword(id, password, newPassword, ConfirmNewPassword) {
     try {
-        const user = UserSchema.findOne({ where: { id } });
-        if (!user) throw new Error('User not found');
-        if(newPassword !== ConfirmNewPassword) throw new Error('Incorrect password');
-        if(Hash.checkHashToPassword(user.password)) throw new Error('Incorrect password');
+        const user = await UserSchema.findOne({ where: { id } });
+        if (!user) {
+            const error = new Error('User not found');
+            error.status = 404;
+            throw error;
+        }
+
+        if (newPassword !== ConfirmNewPassword) {
+            const error = new Error('Passwords do not match');
+            error.status = 400;
+            throw error;
+        }
+
+        if (!Hash.checkHashToPassword(password, user.password)) {
+            const error = new Error('Incorrect current password');
+            error.status = 401;
+            throw error;
+        }
 
         const hashedPassword = Hash.hashPassword(newPassword);
-
         user.password = hashedPassword;
         await user.save();
+
         return { message: 'Password updated successfully' };
     } catch (error) {
-        if(error.message === 'Incorrect password' || error.message === 'User not found')
-            return error.message;
+        if (!error.status) {
+            console.error('Unexpected error in changePassword:', error);
+            error = new Error('Internal Server Error');
+            error.status = 500;
+        }
+        throw error;
     }
 }
 
