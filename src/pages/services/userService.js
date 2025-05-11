@@ -46,18 +46,22 @@ async function changeEmail(id, email) {
     try {
         const user = UserSchema.findOne({ where: { id } });
         if (!user) {
-            throw new Error('User not found');
+            const error = new Error('User not found');
+            error.status = 404;
+            throw error;
         }
 
         user.email = email;
         await user.save();
         return { message: 'Email updated successfully' };
     } catch (error) {
-        if (error.message === 'User not found') {
-            return { error: error.message };
+        if (!error.status) {
+            console.error('Internal Server Error', error);
+            error = new Error('Internal Server Error');
+            error.status = 500;
         }
 
-        console.error(error);
+        throw error;
     }
 }
 
@@ -65,18 +69,22 @@ async function changeName(id, name) {
     try {
         const user = UserSchema.findOne({ where: { id } });
         if (!user) {
-            throw new Error('User not found');
+            const error = new Error('User not found');
+            error.status = 404;
+            throw error;
         }
 
         user.name = name;
         await user.save();
         return { message: 'Name updated successfully' };
     } catch (error) {
-        if (error.message === 'User not found') {
-            return { error: error.message };
+        if (!error.status) {
+            console.error(error);
+            error = new Error('Internal Server Error');
+            error.status = 500;
         }
 
-        console.error(error);
+        throw error;
     }
 }
 
@@ -102,23 +110,34 @@ async function changeProfilePicture(id, profilePicture) {
 async function getDataUser(id) {
     try {
         const user = await UserSchema.findOne({ where: { id }, attributes: ['first_name', 'last_name', 'age'] });
-        if (!user) throw new Error('User not found');
-
-        return user.dataValues;
-    } catch (error) {
-        if (error.message === 'User not found') {
-            return { error: error.message };
+        if (!user) {
+            const error = new Error('User not found');
+            error.status = 404;
+            throw error;
         }
+
+        return {message: 'Get Data Succesfully', user: user.dataValues};
+    } catch (error) {
+        if (!error.status) {
+            error = new Error('Internal Server Error');
+            error.status = 500;
+        }
+
+        throw error;
     }
 }
 
 async function obtainUsers() {
     try {
-        const users = await UserSchema.findAll({attributes: ['id', 'first_name', 'last_name', 'age']});
-
+        const users = await UserSchema.findAll({ attributes: ['id', 'first_name', 'last_name', 'age'] });
+        
         return users.map(user => user.dataValues);
     } catch (error) {
-        throw new Error(error.message);
+        console.error('An unexpected error occurred while fetching users:', error);
+        error = new Error('Internal Server Error');
+        error.status = 500;
+
+        throw error;
     }
 }
 
