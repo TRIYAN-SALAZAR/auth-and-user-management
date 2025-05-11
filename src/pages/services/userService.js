@@ -80,20 +80,14 @@ async function changeProfilePicture(id, profilePicture) {
     }
 }
 
-async function getDataUser(id, data) {
+async function getDataUser(id) {
     try {
-        const user = await UserSchema.findOne({ where: { id } });
-        if (!user) {
-            throw new Error('User not found');
-        }
-        const { first_name, last_name, age } = data;
-
-        user.first_name = first_name;
-        user.last_name = last_name;
-        user.age = age;
-
-        await user.save();
-        return { message: 'User data updated successfully' };
+        const user = await UserSchema.findOne({ where: { id }, attributes: ['first_name', 'last_name', 'age'] });
+        // if (!user) {
+        //     throw new Error('User not found');
+        // }
+        console.log(user)
+        return user.dataValues;
     } catch (error) {
         if (error.message === 'User not found') {
             return { error: error.message };

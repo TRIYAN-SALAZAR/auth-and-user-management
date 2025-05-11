@@ -7,7 +7,7 @@ function userRoute(fastify, options) {
     fastify.put('/change-email', userController.changeEmailController);
     fastify.put('/change-name', userController.changeNameController);
     fastify.put('/change-profile-picture', userController.changeProfilePictureController);
-    fastify.get('/data', userController.getDataUserController);
+    fastify.get('/user/:userid', userController.getDataUserController);
     fastify.get('/users', userController.getAllUsers);
     fastify.post('/seed', userController.postLoadDataUsers);
 }

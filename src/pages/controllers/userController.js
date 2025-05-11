@@ -29,7 +29,13 @@ async function changeProfilePictureController(request, reply) {
 }
 
 async function getDataUserController(request, reply) {
-    reply.send({ message: "User get data" });
+    try {
+        const user = await getDataUser(request.params.userid);
+        reply.send({ message: "User get data", user: user });
+
+    } catch(error) {
+        reply.status(404).send(error);
+    }
 }
 
 async function getAllUsers(request, reply) {
