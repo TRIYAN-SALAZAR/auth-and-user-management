@@ -16,7 +16,6 @@ async function changePasswordController(request, reply) {
     try {
         const { id, password, newPassword, confirmNewPassword } = request.body;
 
-        // Validación básica de entrada
         if (!id || !password || !newPassword || !confirmNewPassword) {
             return reply.status(400).send({
                 success: false,
@@ -24,20 +23,15 @@ async function changePasswordController(request, reply) {
             });
         }
 
-        // Llamada al servicio
         const result = await changePassword(id, password, newPassword, confirmNewPassword);
-
-        // Respuesta exitosa
         reply.send({
             success: true,
             message: result.message
         });
     } catch (error) {
-        // Manejo de errores
         const statusCode = error.status || 500;
         const message = error.message || 'Internal Server Error';
 
-        // Registro de errores inesperados
         if (statusCode === 500) {
             request.log.error(error);
         }
