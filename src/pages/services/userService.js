@@ -6,20 +6,21 @@ import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
 import { UserSchema } from '../../server.js';
 
-async function changePassword(id, password) {
+async function changePassword(id, password, newPassword, ConfirmNewPassword) {
     try {
         const user = UserSchema.findOne({ where: { id } });
-        if (!user) {
-            throw new Error('User not found');
-        }
+        if (!user) throw new Error('User not found');
+        if(newPassword !== ConfirmNewPassword) throw new Error('Incorrect password');
+        if(Hash.checkHashToPassword(user.password)) throw new Error('Incorrect password');
 
-        const hashedPassword = await jwt.hashPassword(password);
+        const hashedPassword = Hash.hashPassword(newPassword);
 
         user.password = hashedPassword;
         await user.save();
         return { message: 'Password updated successfully' };
     } catch (error) {
-        console.error(error);
+        if(error.message === 'Incorrect password' || error.message === 'User not found')
+            return error.message;
     }
 }
 
@@ -83,16 +84,13 @@ async function changeProfilePicture(id, profilePicture) {
 async function getDataUser(id) {
     try {
         const user = await UserSchema.findOne({ where: { id }, attributes: ['first_name', 'last_name', 'age'] });
-        // if (!user) {
-        //     throw new Error('User not found');
-        // }
-        console.log(user)
+        if (!user) throw new Error('User not found');
+
         return user.dataValues;
     } catch (error) {
         if (error.message === 'User not found') {
             return { error: error.message };
         }
-        console.error(error);
     }
 }
 
