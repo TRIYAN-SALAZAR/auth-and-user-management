@@ -4,11 +4,11 @@ import jwt from '../../utils/jwt.js';
 import ObtainSeedData from '../../tests/seed/obtainData.js';
 import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
-import { UserSchema } from '../../server.js';
+import { User } from '../../server.js';
 
 async function changePassword(id, password, newPassword, ConfirmNewPassword) {
     try {
-        const user = await UserSchema.findOne({ where: { id } });
+        const user = await User.findOne({ where: { id } });
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
@@ -44,7 +44,7 @@ async function changePassword(id, password, newPassword, ConfirmNewPassword) {
 
 async function changeEmail(id, email) {
     try {
-        const user = UserSchema.findOne({ where: { id } });
+        const user = User.findOne({ where: { id } });
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
@@ -67,7 +67,7 @@ async function changeEmail(id, email) {
 
 async function changeName(id, name) {
     try {
-        const user = UserSchema.findOne({ where: { id } });
+        const user = User.findOne({ where: { id } });
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
@@ -90,7 +90,7 @@ async function changeName(id, name) {
 
 async function changeProfilePicture(id, profilePicture) {
     try {
-        const user = UserSchema.findOne({ where: { id } });
+        const user = User.findOne({ where: { id } });
         if (!user) {
             throw new Error('User not found');
         }
@@ -109,7 +109,7 @@ async function changeProfilePicture(id, profilePicture) {
 
 async function getDataUser(id) {
     try {
-        const user = await UserSchema.findOne({ where: { id }, attributes: ['first_name', 'last_name', 'age'] });
+        const user = await User.findOne({ where: { id }, attributes: ['first_name', 'last_name', 'age'] });
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
@@ -129,7 +129,7 @@ async function getDataUser(id) {
 
 async function obtainUsers() {
     try {
-        const users = await UserSchema.findAll({ attributes: ['id', 'first_name', 'last_name', 'age'] });
+        const users = await User.findAll({ attributes: ['id', 'first_name', 'last_name', 'age'] });
         
         return users.map(user => user.dataValues);
     } catch (error) {
@@ -150,7 +150,7 @@ async function loadSeedOfUsers() {
     try {
         const USER_DATA = await ObtainSeedData();
         USER_DATA.forEach(async (user) => {
-            await UserSchema.create({
+            await User.create({
                 id: generateID(),
                 first_name: user.first_name,
                 last_name: user.last_name,

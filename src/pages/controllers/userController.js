@@ -70,7 +70,8 @@ async function getAllUsers(request, reply) {
         const USERS = await obtainUsers();
         reply.send({message: "Get users succesfully", users: USERS});
     } catch(error) {
-        reply.status(500).send({error: "what's happened wrong", error});
+        console.log(error);
+        reply.status(500).send({message: "what's happened wrong", error});
     }
 }
 

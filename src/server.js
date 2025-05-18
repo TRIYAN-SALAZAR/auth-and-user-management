@@ -40,7 +40,7 @@ await server.register(userRoute);
 
 await server.ready();
 
-const UserSchema = server.schemas.User(server.sequelize);
+const User = server.schema.User;
 
 async function start() {
     server.listen({ port: 3000, host: '0.0.0.0' }, (err, address) => {
@@ -54,4 +54,4 @@ async function start() {
 
 start();
 
-export { UserSchema };
+export { User };

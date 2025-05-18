@@ -2,28 +2,29 @@
 
 import fastifyPlugin from 'fastify-plugin';
 import { Sequelize } from 'sequelize';
-import User from '../schemas/userShema.js';
+import UserSchema from '../schemas/userShema.js';
 
-async function dbConnector(fastify, options) {
+async function dbConnector(server, options) {
 
-    const sequelize = new Sequelize(fastify.config.POSTGRES_URL, {
+    const sequelize = new Sequelize(server.config.POSTGRES_URL, {
         dialect: 'postgres',
         dialectOptions: {
             ssl: {
                 require: true,
-                rejectUnauthorized: false, // <- Esto permite certificados autofirmados
+                rejectUnauthorized: false,
             }
         }
     });
 
     try {
-        fastify.decorate('sequelize', sequelize);
-        fastify.decorate('schemas', {
-            User,
+        const User = UserSchema(sequelize);
+        server.decorate('schema', {
+            User
         });
-        fastify.log.info('\nConnection has been established successfully.');
+
+        server.log.info('\nConnection has been established successfully.');
     } catch (error) {
-        fastify.log.error('Unable to connect to the database');
+        server.log.error('Unable to connect to the database');
         console.error('\n', error);
     }
 }

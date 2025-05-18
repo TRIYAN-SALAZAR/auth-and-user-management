@@ -2,7 +2,7 @@
 
 import { DataTypes } from "sequelize";
 
-function User(sequelize) {
+function UserSchema(sequelize) {
     const User = sequelize.define('User', {
         id: {
             type: DataTypes.UUID,
@@ -39,4 +39,4 @@ function User(sequelize) {
     return User;
 }
 
-export default User;
+export default UserSchema;
