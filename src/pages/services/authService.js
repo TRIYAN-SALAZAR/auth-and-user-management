@@ -7,30 +7,54 @@ import Hash from '../../utils/hash.js';
 
 async function login(email, password) {
     try {
-        const user = await User.findOne({ where: { email }, attributes: ['id', 'first_name', 'password'] });
+        const user = await User.findOne({
+            where: { email },
+            attributes: ['id', 'first_name', 'password']
+        });
         const hash = user.password;
+        const isPasswordCorrect = Hash.checkHashToPassword(password, hash);
 
-        if (!user || !Hash.checkHashToPassword(password, hash)) throw new Error('Invalid email or password');
+        if (!user || !isPasswordCorrect) {
+            const error = new Error('Invalid email or password');
+            error.status = 401;
+            throw error;
+        }
         const token = jwt.sign({ id: user.id, name: user.first_name })
-        return token;
 
+        return token;
     } catch (error) {
-        if (error.message === 'Invalid email or password') {
-            return { error: error.message };
+        if (!error.status) {
+            error = new Error('Internal Server Error');
+            error.status = 500;
         }
 
         console.error(error);
+        throw error;
     }
 }
 
 async function registerEmail(dataUser) {
     try {
-        const { email, password, firstName, lastName, age } = dataUser;
+        const {
+            email,
+            password,
+            firstName,
+            lastName,
+            age
+        } = dataUser;
+
         const hash = Hash.hashPassword(password);
         const id = generateID();
-        const user = await User.create({ id, email, password: hash, first_name: firstName, last_name: lastName, age });
+        const user = await User.create({ 
+            id,
+            email,
+            password: hash,
+            first_name: firstName,
+            last_name: lastName,
+            age
+        });
 
-        return jwt.sign({ id: user.id });
+        return jwt.sign({ id: user.id, name: user.name });
 
     } catch (error) {
         console.error(error);

@@ -8,10 +8,10 @@ async function loginController(request, reply) {
     try {
         const { email, password } = request.body;
         const token = await login(email, password);
-        reply.send({ message: "Auth login", token: token });
+
+        reply.send({ message: "Successful Login", token: token });
     } catch (error) {
-        reply.send({ message: error.message })
-        console.error(error);
+        reply.status(error.status).send({ message: error.message })
     }
 }
 
