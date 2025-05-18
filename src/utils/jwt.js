@@ -1,13 +1,20 @@
 'use strict';
 
 import jwt from 'jsonwebtoken';
-const secret = process.env.JWT_SECRET;
+
+/*
+    Temporal solution to be able to sign the token with the key
+*/
 
 function sign(payload) {
-    return jwt.sign(payload, secret, { expiresIn: '1h' });
+    const secret = process.env.JWT_SECRET;
+    console.log(secret)
+    return jwt.sign(payload, secret, { expiresIn: '9h' });
 }
 
 function verify(token) {
+    const secret = process.env.JWT_SECRET;
+    console.log(secret)
     return jwt.verify(token, secret);
 }
 
