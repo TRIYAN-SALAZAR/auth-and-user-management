@@ -156,6 +156,5 @@ export default {
     changeName,
     changeProfilePicture,
     getDataUser,
-    loadSeedOfUsers,
     obtainUsers
 }
