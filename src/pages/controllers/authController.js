@@ -17,15 +17,20 @@ async function loginController(request, reply) {
 
 async function registerController(request, reply) {
     try {
-        const { email, password, firstName, lastName, age } = request.body;
+        const {
+            email,
+            password,
+            firstName,
+            lastName,
+            age
+        } = request.body;
         const token = await registerEmail({ email, password, firstName, lastName, age });
 
         if (!token) throw new Error('Error to register');
 
-        reply.send({ message: "Auth register", token });
+        reply.send({ message: "User Registered", token });
     } catch (error) {
-        // reply.send({ message: error.message });
-        console.error(error);
+        reply.status(error.status).send({ description: error.message });
     }
 }
 

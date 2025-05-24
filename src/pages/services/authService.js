@@ -43,6 +43,12 @@ async function registerEmail(dataUser) {
             age
         } = dataUser;
 
+        if(!email || !password || !firstName || !lastName || !age) {
+            const error = new Error('Missing Data');
+            error.status = 400;
+            throw error;
+        }
+
         const hash = Hash.hashPassword(password);
         const id = generateID();
         const user = await User.create({ 
@@ -53,11 +59,19 @@ async function registerEmail(dataUser) {
             last_name: lastName,
             age
         });
+        const token = jwt.sign({ id: user.id, name: user.name });
 
-        return jwt.sign({ id: user.id, name: user.name });
+        return token;
 
     } catch (error) {
+        if(!error.status) {
+            const errorMessage = error.errors[0].message 
+            error = new Error(errorMessage);
+            error.status = 500;
+        }
+
         console.error(error);
+        throw error;
     }
 }
 
