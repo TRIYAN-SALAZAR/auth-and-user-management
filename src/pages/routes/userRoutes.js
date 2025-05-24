@@ -9,7 +9,6 @@ function userRoute(fastify, options) {
     fastify.put('/change-profile-picture', userController.changeProfilePictureController);
     fastify.get('/user/:userid', userController.getDataUserController);
     fastify.get('/users', userController.getAllUsers);
-    fastify.post('/seed', userController.postLoadDataUsers);
 }
 
 export default userRoute;
