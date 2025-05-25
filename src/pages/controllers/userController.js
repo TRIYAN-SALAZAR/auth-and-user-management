@@ -57,7 +57,8 @@ async function changeProfilePictureController(request, reply) {
 
 async function getDataUserController(request, reply) {
     try {
-        const user = await getDataUser(request.params.userid);
+        const server = request.server;
+        const user = await getDataUser(server, request.params.userid);
         reply.send({ message: "User get data", user: user });
 
     } catch(error) {
@@ -67,7 +68,8 @@ async function getDataUserController(request, reply) {
 
 async function getAllUsers(request, reply) {
     try {
-        const USERS = await obtainUsers();
+        const server = request.server;
+        const USERS = await obtainUsers(server);
         reply.send({message: "Get users succesfully", users: USERS});
     } catch(error) {
         console.log(error);
@@ -75,6 +77,11 @@ async function getAllUsers(request, reply) {
     }
 }
 
+/**
+ *
+ *   Route Deprecated.
+ *   Currentrly this route is unuseful. Only kept as practice example.
+ */
 async function postLoadDataUsers() {
     try {
         const DATA = await loadSeedOfUsers();

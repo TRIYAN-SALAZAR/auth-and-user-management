@@ -1,6 +1,5 @@
 'use strict';
 
-import { User } from '../../server.js';
 import jwt from '../../utils/jwt.js';
 import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';

@@ -4,7 +4,6 @@ import jwt from '../../utils/jwt.js';
 import ObtainSeedData from '../../tests/seed/obtainData.js';
 import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
-import { User } from '../../server.js';
 
 async function changePassword(server, { id, password, newPassword, confirmNewPassword }) {
     try {
@@ -43,8 +42,9 @@ async function changePassword(server, { id, password, newPassword, confirmNewPas
     }
 }
 
-async function changeEmail(id, email) {
+async function changeEmail(server, {id, email}) {
     try {
+        const User = server.schema.User;
         const user = User.findOne({ where: { id } });
         if (!user) {
             const error = new Error('User not found');
@@ -66,8 +66,9 @@ async function changeEmail(id, email) {
     }
 }
 
-async function changeName(id, name) {
+async function changeName(server, {id, name}) {
     try {
+        const User = server.schema.User;
         const user = User.findOne({ where: { id } });
         if (!user) {
             const error = new Error('User not found');
@@ -89,7 +90,7 @@ async function changeName(id, name) {
     }
 }
 
-async function changeProfilePicture(id, profilePicture) {
+async function changeProfilePicture(server, {id, profilePicture}) {
     try {
         const user = User.findOne({ where: { id } });
         if (!user) {
@@ -108,8 +109,9 @@ async function changeProfilePicture(id, profilePicture) {
     }
 }
 
-async function getDataUser(id) {
+async function getDataUser(server, id) {
     try {
+        const User = server.schema.User;
         const user = await User.findOne({
             where: { id },
             attributes: ['first_name', 'last_name', 'age']
@@ -135,8 +137,9 @@ async function getDataUser(id) {
     }
 }
 
-async function obtainUsers() {
+async function obtainUsers(server) {
     try {
+        const User = server.schema.User;
         const users = await User.findAll({
             attributes: ['id', 'first_name', 'last_name', 'age']
         });
