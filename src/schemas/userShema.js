@@ -2,7 +2,7 @@
 
 import { DataTypes } from "sequelize";
 
-function User(sequelize) {
+function UserSchema(sequelize) {
     const User = sequelize.define('User', {
         id: {
             type: DataTypes.UUID,
@@ -26,6 +26,7 @@ function User(sequelize) {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true
         },
         password: {
             type: DataTypes.STRING,
@@ -39,4 +40,4 @@ function User(sequelize) {
     return User;
 }
 
-export default User;
+export default UserSchema;

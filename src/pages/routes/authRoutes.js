@@ -8,6 +8,7 @@ const opts = {
             200: {
                 type: 'object',
                 properties: {
+                    token: { type: 'string' },
                     message: { type: 'string' }
                 }
             }
@@ -15,9 +16,9 @@ const opts = {
     }
 }
 
-function authRoutes(fastify, options) {
-    fastify.post('/login', opts,  authController.loginController);
-    fastify.post('/register', opts, authController.registerController);
+function authRoutes(server, options) {
+    server.post('/login', opts,  authController.loginController);
+    server.post('/signin', opts, authController.signInController);
 }
 
 export default authRoutes;
