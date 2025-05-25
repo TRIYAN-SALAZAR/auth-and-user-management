@@ -7,6 +7,12 @@ import Hash from '../../utils/hash.js';
 
 async function changePassword(server, { id, password, newPassword, confirmNewPassword }) {
     try {
+        if (!id || !password || !newPassword || !confirmNewPassword) {
+            const error = new Error('Missing required fields: id, password, newPassword, confirmNewPassword');
+            error.status = 400;
+            throw error;
+        }
+
         const User = server.schema.User;
         const user = await User.findOne({ where: { id } });
         if (!user) {
@@ -14,7 +20,7 @@ async function changePassword(server, { id, password, newPassword, confirmNewPas
             error.status = 404;
             throw error;
         }
-        console.log(newPassword, confirmNewPassword);
+
         if (newPassword !== confirmNewPassword) {
             const error = new Error('Passwords do not match');
             error.status = 400;
@@ -42,7 +48,7 @@ async function changePassword(server, { id, password, newPassword, confirmNewPas
     }
 }
 
-async function changeEmail(server, {id, email}) {
+async function changeEmail(server, { id, email }) {
     try {
         const User = server.schema.User;
         const user = User.findOne({ where: { id } });
@@ -66,7 +72,7 @@ async function changeEmail(server, {id, email}) {
     }
 }
 
-async function changeName(server, {id, name}) {
+async function changeName(server, { id, name }) {
     try {
         const User = server.schema.User;
         const user = User.findOne({ where: { id } });
@@ -90,8 +96,9 @@ async function changeName(server, {id, name}) {
     }
 }
 
-async function changeProfilePicture(server, {id, profilePicture}) {
+async function changeProfilePicture(server, { id, profilePicture }) {
     try {
+        const User = server.schema.User;
         const user = User.findOne({ where: { id } });
         if (!user) {
             throw new Error('User not found');
