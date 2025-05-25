@@ -33,12 +33,20 @@ async function changeEmailController(request, reply) {
 
         reply.send({ message: result.message });
     } catch (error) {
-        reply.status(error.status).send({message: error.message})
+        reply.status(error.status).send({ message: error.message })
     }
 }
 
 async function changeNameController(request, reply) {
-    reply.send({ message: "User change name" });
+    try {
+        const server = request.server;
+        const data = request.body;
+        const result = await changeName(server, data);
+
+        reply.send({ message: result.message });
+    } catch (error) {
+
+    }
 }
 
 async function changeProfilePictureController(request, reply) {

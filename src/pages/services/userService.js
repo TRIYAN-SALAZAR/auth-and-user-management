@@ -72,17 +72,33 @@ async function changeEmail(server, { id, email }) {
     }
 }
 
-async function changeName(server, { id, name }) {
+async function changeName(server, {id, first_name, last_name}) {
     try {
         const User = server.schema.User;
+        
+        if(!id) {
+            const error = new Error("Missing userID");
+            error.status = 404;
+            throw error;
+        }
+        
+        if(!first_name && !last_name) {
+            const error = new Error("Missing Data");
+            error.status = 404;
+            throw error;
+        }
+
         const user = User.findOne({ where: { id } });
+        
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
             throw error;
         }
+        
+        if(first_name) user.first_name = first_name;
+        if(last_name) user.last_name = last_name;
 
-        user.name = name;
         await user.save();
         return { message: 'Name updated successfully' };
     } catch (error) {
