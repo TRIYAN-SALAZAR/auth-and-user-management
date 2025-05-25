@@ -21,17 +21,7 @@ async function changePasswordController(request, reply) {
             message: result.message
         });
     } catch (error) {
-        const statusCode = error.status || 500;
-        const message = error.message || 'Internal Server Error';
-
-        if (statusCode === 500) {
-            request.log.error(error);
-        }
-
-        reply.status(statusCode).send({
-            success: false,
-            message
-        });
+        reply.status(error.status).send({ message: error.message });
     }
 }
 
