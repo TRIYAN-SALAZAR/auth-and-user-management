@@ -33,7 +33,7 @@ async function login(server, email, password) {
     }
 }
 
-async function registerEmail(server, dataUser) {
+async function signIn(server, dataUser) {
     try {
         const User = server.schema.User;
         const {
@@ -76,4 +76,4 @@ async function registerEmail(server, dataUser) {
     }
 }
 
-export default { login, registerEmail };
+export default { login, signIn };

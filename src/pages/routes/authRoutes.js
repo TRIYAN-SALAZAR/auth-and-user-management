@@ -18,7 +18,7 @@ const opts = {
 
 function authRoutes(server, options) {
     server.post('/login', opts,  authController.loginController);
-    server.post('/signin', opts, authController.registerController);
+    server.post('/signin', opts, authController.signInController);
 }
 
 export default authRoutes;

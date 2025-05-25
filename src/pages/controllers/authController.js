@@ -2,7 +2,7 @@
 
 import authService from '../services/authService.js';
 
-const { login, registerEmail } = authService;
+const { login, signIn } = authService;
 
 async function loginController(request, reply) {
     try {
@@ -16,10 +16,10 @@ async function loginController(request, reply) {
     }
 }
 
-async function registerController(request, reply) {
+async function signInController(request, reply) {
     try {
         const server = request.server;
-        const token = await registerEmail(server, request.body);
+        const token = await signIn(server, request.body);
 
         if (!token) throw new Error('Error to register');
 
@@ -29,4 +29,4 @@ async function registerController(request, reply) {
     }
 }
 
-export default { loginController, registerController };
+export default { loginController, signInController };
