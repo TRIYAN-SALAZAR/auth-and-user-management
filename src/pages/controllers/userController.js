@@ -8,12 +8,12 @@ const {
     changeName, 
     changeProfilePicture, 
     getDataUser, 
-    loadSeedOfUsers,
     obtainUsers
 } = userService;
 
 async function changePasswordController(request, reply) {
     try {
+        const server = request.server;
         const { id, password, newPassword, confirmNewPassword } = request.body;
 
         if (!id || !password || !newPassword || !confirmNewPassword) {
@@ -23,7 +23,7 @@ async function changePasswordController(request, reply) {
             });
         }
 
-        const result = await changePassword(id, password, newPassword, confirmNewPassword);
+        const result = await changePassword(server, {id, password, newPassword, confirmNewPassword});
         reply.send({
             success: true,
             message: result.message

@@ -6,16 +6,17 @@ import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
 import { User } from '../../server.js';
 
-async function changePassword(id, password, newPassword, ConfirmNewPassword) {
+async function changePassword(server, { id, password, newPassword, confirmNewPassword }) {
     try {
+        const User = server.schema.User;
         const user = await User.findOne({ where: { id } });
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
             throw error;
         }
-
-        if (newPassword !== ConfirmNewPassword) {
+        console.log(newPassword, confirmNewPassword);
+        if (newPassword !== confirmNewPassword) {
             const error = new Error('Passwords do not match');
             error.status = 400;
             throw error;
