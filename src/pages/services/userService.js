@@ -7,17 +7,11 @@ import Hash from '../../utils/hash.js';
 
 async function changePassword(server, { id, password, newPassword, confirmNewPassword }) {
     try {
+        const User = server.schema.User;
+        
         if (!id || !password || !newPassword || !confirmNewPassword) {
             const error = new Error('Missing required fields: id, password, newPassword, confirmNewPassword');
             error.status = 400;
-            throw error;
-        }
-
-        const User = server.schema.User;
-        const user = await User.findOne({ where: { id } });
-        if (!user) {
-            const error = new Error('User not found');
-            error.status = 404;
             throw error;
         }
 
@@ -26,6 +20,14 @@ async function changePassword(server, { id, password, newPassword, confirmNewPas
             error.status = 400;
             throw error;
         }
+
+        const user = await User.findOne({ where: { id } });
+        if (!user) {
+            const error = new Error('User not found');
+            error.status = 404;
+            throw error;
+        }
+
 
         if (!Hash.checkHashToPassword(password, user.password)) {
             const error = new Error('Incorrect current password');
