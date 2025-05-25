@@ -6,8 +6,9 @@ const { login, registerEmail } = authService;
 
 async function loginController(request, reply) {
     try {
+        const server = request.server;
         const { email, password } = request.body;
-        const token = await login(email, password);
+        const token = await login(server, email, password);
 
         reply.send({ message: "Successful Login", token: token });
     } catch (error) {
@@ -17,14 +18,8 @@ async function loginController(request, reply) {
 
 async function registerController(request, reply) {
     try {
-        const {
-            email,
-            password,
-            firstName,
-            lastName,
-            age
-        } = request.body;
-        const token = await registerEmail({ email, password, firstName, lastName, age });
+        const server = request.server;
+        const token = await registerEmail(server, request.body);
 
         if (!token) throw new Error('Error to register');
 

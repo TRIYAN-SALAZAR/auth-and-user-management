@@ -4,8 +4,9 @@ import jwt from '../../utils/jwt.js';
 import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
 
-async function login(email, password) {
+async function login(server, email, password) {
     try {
+        const User = server.schema.User;
         const user = await User.findOne({
             where: { email },
             attributes: ['id', 'first_name', 'password']
@@ -32,8 +33,9 @@ async function login(email, password) {
     }
 }
 
-async function registerEmail(dataUser) {
+async function registerEmail(server, dataUser) {
     try {
+        const User = server.schema.User;
         const {
             email,
             password,
