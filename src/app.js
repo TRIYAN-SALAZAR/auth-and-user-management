@@ -20,7 +20,6 @@ const envToLogger = {
     test: false,
 }
 
-console.log(process.argv[2])
 const enviroment = process.argv[2];
 
 const envPath = './.env';
