@@ -1,8 +1,5 @@
 'use strict';
 
-import jwt from '../../utils/jwt.js';
-import ObtainSeedData from '../../tests/seed/obtainData.js';
-import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
 
 async function changePassword(server, { id, password, newPassword, confirmNewPassword }) {
