@@ -2,53 +2,51 @@
 
 import userService from '../services/userService.js';
 
-const { 
-    changePassword, 
-    changeEmail, 
-    changeName, 
-    changeProfilePicture, 
-    getDataUser, 
+const {
+    changePassword,
+    changeEmail,
+    changeName,
+    changeProfilePicture,
+    getDataUser,
     obtainUsers
 } = userService;
 
 async function changePasswordController(request, reply) {
     try {
         const server = request.server;
-        const { id, password, newPassword, confirmNewPassword } = request.body;
+        const data = request.body;
+        const result = await changePassword(server, data);
 
-        if (!id || !password || !newPassword || !confirmNewPassword) {
-            return reply.status(400).send({
-                success: false,
-                message: 'Missing required fields: id, password, newPassword, confirmNewPassword'
-            });
-        }
-
-        const result = await changePassword(server, {id, password, newPassword, confirmNewPassword});
         reply.send({
-            success: true,
             message: result.message
         });
     } catch (error) {
-        const statusCode = error.status || 500;
-        const message = error.message || 'Internal Server Error';
-
-        if (statusCode === 500) {
-            request.log.error(error);
-        }
-
-        reply.status(statusCode).send({
-            success: false,
-            message
-        });
+        reply.status(error.status).send({ message: error.message });
     }
 }
 
 async function changeEmailController(request, reply) {
-    reply.send({ message: "User change email" });
+    try {
+        const server = request.server;
+        const { email } = request.body;
+        const result = await changeEmail(server, email);
+
+        reply.send({ message: result.message });
+    } catch (error) {
+        reply.status(error.status).send({ message: error.message })
+    }
 }
 
 async function changeNameController(request, reply) {
-    reply.send({ message: "User change name" });
+    try {
+        const server = request.server;
+        const data = request.body;
+        const result = await changeName(server, data);
+
+        reply.send({ message: result.message });
+    } catch (error) {
+
+    }
 }
 
 async function changeProfilePictureController(request, reply) {
@@ -61,7 +59,7 @@ async function getDataUserController(request, reply) {
         const user = await getDataUser(server, request.params.userid);
         reply.send({ message: "User get data", user: user });
 
-    } catch(error) {
+    } catch (error) {
         reply.status(404).send(error);
     }
 }
@@ -70,10 +68,10 @@ async function getAllUsers(request, reply) {
     try {
         const server = request.server;
         const USERS = await obtainUsers(server);
-        reply.send({message: "Get users succesfully", users: USERS});
-    } catch(error) {
+        reply.send({ message: "Get users succesfully", users: USERS });
+    } catch (error) {
         console.log(error);
-        reply.status(500).send({message: "what's happened wrong", error});
+        reply.status(500).send({ message: "what's happened wrong", error });
     }
 }
 
@@ -97,9 +95,9 @@ async function postLoadDataUsers() {
 export default {
     changePasswordController,
     changeEmailController,
-    changeNameController, 
-    changeProfilePictureController, 
-    getDataUserController, 
+    changeNameController,
+    changeProfilePictureController,
+    getDataUserController,
     postLoadDataUsers,
     getAllUsers
 };

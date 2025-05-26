@@ -1,25 +1,30 @@
 'use strict';
 
-import jwt from '../../utils/jwt.js';
-import ObtainSeedData from '../../tests/seed/obtainData.js';
-import { generateID } from '../../utils/idGenerate.js';
 import Hash from '../../utils/hash.js';
 
 async function changePassword(server, { id, password, newPassword, confirmNewPassword }) {
     try {
         const User = server.schema.User;
+        
+        if (!id || !password || !newPassword || !confirmNewPassword) {
+            const error = new Error('Missing required fields: id, password, newPassword, confirmNewPassword');
+            error.status = 400;
+            throw error;
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            const error = new Error('Passwords do not match');
+            error.status = 400;
+            throw error;
+        }
+
         const user = await User.findOne({ where: { id } });
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
             throw error;
         }
-        console.log(newPassword, confirmNewPassword);
-        if (newPassword !== confirmNewPassword) {
-            const error = new Error('Passwords do not match');
-            error.status = 400;
-            throw error;
-        }
+
 
         if (!Hash.checkHashToPassword(password, user.password)) {
             const error = new Error('Incorrect current password');
@@ -42,7 +47,7 @@ async function changePassword(server, { id, password, newPassword, confirmNewPas
     }
 }
 
-async function changeEmail(server, {id, email}) {
+async function changeEmail(server, { id, email }) {
     try {
         const User = server.schema.User;
         const user = User.findOne({ where: { id } });
@@ -66,17 +71,33 @@ async function changeEmail(server, {id, email}) {
     }
 }
 
-async function changeName(server, {id, name}) {
+async function changeName(server, {id, first_name, last_name}) {
     try {
         const User = server.schema.User;
+        
+        if(!id) {
+            const error = new Error("Missing userID");
+            error.status = 404;
+            throw error;
+        }
+        
+        if(!first_name && !last_name) {
+            const error = new Error("Missing Data");
+            error.status = 404;
+            throw error;
+        }
+
         const user = User.findOne({ where: { id } });
+        
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
             throw error;
         }
+        
+        if(first_name) user.first_name = first_name;
+        if(last_name) user.last_name = last_name;
 
-        user.name = name;
         await user.save();
         return { message: 'Name updated successfully' };
     } catch (error) {
@@ -90,8 +111,9 @@ async function changeName(server, {id, name}) {
     }
 }
 
-async function changeProfilePicture(server, {id, profilePicture}) {
+async function changeProfilePicture(server, { id, profilePicture }) {
     try {
+        const User = server.schema.User;
         const user = User.findOne({ where: { id } });
         if (!user) {
             throw new Error('User not found');
