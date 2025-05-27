@@ -7,23 +7,17 @@ import authRoutes from "./pages/routes/authRoutes.js";
 import userRoute from "./pages/routes/userRoutes.js";
 
 const envToLogger = {
-    development: {
-        transport: {
-            target: 'pino-pretty',
-            options: {
-                translateTime: 'HH:MM:ss Z',
-                ignore: 'pid,hostname',
-            },
+    transport: {
+        target: 'pino-pretty',
+        options: {
+            translateTime: 'HH:MM:ss Z',
+            ignore: 'hostname',
         },
     },
-    production: true,
-    test: false,
 }
 
-const enviroment = process.argv[2];
-
 const envPath = './.env';
-const server = fastify({ logger: envToLogger[enviroment] ?? true });
+const server = fastify({ logger: envToLogger });
 const schemaENV = {
     type: 'object',
     required: ['POSTGRES_URL'],
@@ -49,7 +43,7 @@ server.register(fastifyEnv, options)
         console.log(server.config);
         console.log('------------------------------------');
     });
-    
+
 await server.register(dbConnector);
 await server.register(authRoutes);
 await server.register(userRoute);
