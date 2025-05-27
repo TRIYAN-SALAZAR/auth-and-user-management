@@ -17,7 +17,7 @@ const envToLogger = {
 }
 
 const envPath = './.env';
-const server = fastify({ logger: envToLogger });
+
 const schemaENV = {
     type: 'object',
     required: ['POSTGRES_URL'],
@@ -34,6 +34,8 @@ const options = {
         path: envPath
     }
 };
+
+const server = fastify({ logger: envToLogger });
 
 server.register(fastifyEnv, options)
     .after((err) => {
