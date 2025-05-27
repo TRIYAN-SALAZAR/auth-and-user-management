@@ -60,7 +60,7 @@ async function getDataUserController(request, reply) {
         reply.send({ message: "User get data", user: user });
 
     } catch (error) {
-        reply.status(404).send(error);
+        reply.status(error.status).send(error);
     }
 }
 

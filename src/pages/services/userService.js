@@ -133,6 +133,12 @@ async function changeProfilePicture(server, { id, profilePicture }) {
 
 async function getDataUser(server, id) {
     try {
+        if(!id) {
+            const error = new Error("Missing User ID");
+            error = 404;
+            throw error;
+        }
+
         const User = server.schema.User;
         const user = await User.findOne({
             where: { id },
