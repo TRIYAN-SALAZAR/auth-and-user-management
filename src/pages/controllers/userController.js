@@ -75,23 +75,6 @@ async function getAllUsers(request, reply) {
     }
 }
 
-/**
- *
- *   Route Deprecated.
- *   Currentrly this route is unuseful. Only kept as practice example.
- */
-async function postLoadDataUsers() {
-    try {
-        const DATA = await loadSeedOfUsers();
-        reply.send({ message: "Data load succesfully", data: DATA });
-    } catch (error) {
-        console.error('----------------------------\n')
-
-        request.log.error(error);
-        reply.status(500).send({ error: 'Internal Server Error' });
-    }
-}
-
 export default {
     changePasswordController,
     changeEmailController,
