@@ -81,6 +81,5 @@ export default {
     changeNameController,
     changeProfilePictureController,
     getDataUserController,
-    postLoadDataUsers,
     getAllUsers
 };
