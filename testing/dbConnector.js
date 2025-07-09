@@ -1,8 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 
-const POSTGRES_URL = process.env.POSTGRES_URL;
-// console.log(process.env);
-const sequelize = new Sequelize(POSTGRES_URL, {
+const sequelize = new Sequelize("Insert you URL", {
     dialect: 'postgres',
     dialectOptions: {
         ssl: {
