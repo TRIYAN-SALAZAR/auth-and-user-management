@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node src/server.js production",
     "dev": "node --watch src/server.js development",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:details": "node --trace-warnings --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "@fastify/auth": "^5.0.2",
