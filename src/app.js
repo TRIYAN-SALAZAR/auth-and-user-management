@@ -40,16 +40,10 @@ const server = fastify({ logger: envToLogger });
 server.register(fastifyEnv, options)
     .after((err) => {
         if (err) throw err;
-        console.log('------------------------------------');
-        console.log('fastify-env registered');
-        console.log(server.config);
-        console.log('------------------------------------');
     });
 
 await server.register(dbConnector);
 await server.register(authRoutes);
 await server.register(userRoute);
-
-await server.ready();
 
 export default server;
