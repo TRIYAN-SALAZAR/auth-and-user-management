@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 
-const sequelize = new Sequelize("postgres://postgres.oboylfenorhzsmnfyfuu:0fJyp6qlBp2ioE71@aws-0-us-east-1.pooler.supabase.com:6543/postgres?supa=base-pooler.x", {
+const POSTGRES_URL = process.env.POSTGRES_URL;
+const sequelize = new Sequelize(POSTGRES_URL, {
     dialect: 'postgres',
     dialectOptions: {
         ssl: {
