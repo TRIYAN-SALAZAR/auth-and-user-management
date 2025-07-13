@@ -1,8 +1,6 @@
 'use strict';
 
-import { DataTypes } from "sequelize";
-
-function UserSchema(sequelize) {
+function UserSchema(sequelize, DataTypes) {
     const User = sequelize.define('User', {
         id: {
             type: DataTypes.UUID,

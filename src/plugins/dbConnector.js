@@ -1,7 +1,7 @@
 'use strict';
 
 import fastifyPlugin from 'fastify-plugin';
-import { Sequelize } from 'sequelize';
+import { Sequelize, DataTypes } from 'sequelize';
 import UserSchema from '../schemas/userShema.js';
 
 async function dbConnector(server, options) {
@@ -17,7 +17,7 @@ async function dbConnector(server, options) {
     });
 
     try {
-        const User = UserSchema(sequelize);
+        const User = UserSchema(sequelize, DataTypes);
         server.decorate('schema', {
             User
         });
