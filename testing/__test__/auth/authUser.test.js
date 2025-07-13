@@ -23,11 +23,15 @@ afterAll(async () => {
 });
 
 describe('POST/ auth', function () {
-    test('Login', async() => {
+    test('Login', async () => {
         const response = await request(server.server)
             .post('/login')
             .send({ email, password })
 
+        const jwtRegex = /([A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+)/g;
+
         expect(response.statusCode).toBe(200);
+        expect(response._body.message).toMatch('Successful Login');
+        expect(response._body.token).toMatch(jwtRegex);
     });
 });
