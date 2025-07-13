@@ -8,13 +8,11 @@ import jwt from 'jsonwebtoken';
 
 function sign(payload) {
     const secret = process.env.JWT_SECRET;
-    console.log(secret)
     return jwt.sign(payload, secret, { expiresIn: '9h' });
 }
 
 function verify(token) {
     const secret = process.env.JWT_SECRET;
-    console.log(secret)
     return jwt.verify(token, secret);
 }
 
