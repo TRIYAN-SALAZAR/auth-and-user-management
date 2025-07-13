@@ -5,6 +5,8 @@ import hash from '../../hash.js';
 
 const emails = ['test@mail.com', 'test_email@example.com'];
 const password = 'UnPato32LLamado_Juan';
+const jwtRegex = /([A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+)/g;
+
 
 beforeAll(async () => {
     await app.ready()
@@ -28,8 +30,6 @@ describe('POST/ auth', function () {
             .post('/login')
             .send({ email: emails[0], password })
 
-        const jwtRegex = /([A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+)/g;
-
         expect(response.statusCode).toBe(200);
         expect(response._body.message).toMatch('Successful Login');
         expect(response._body.token).toMatch(jwtRegex);
@@ -47,7 +47,8 @@ describe('POST/ auth', function () {
         const response = await request(app.server)
             .post('/signin')
             .send(dataUser)
-        
+
         expect(response._body.message).toMatch("User Registered");
+        expect(response._body.token).toMatch(jwtRegex);
     });
 });
