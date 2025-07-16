@@ -9,7 +9,7 @@ const jwtRegex = /([A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+)/g;
 
 
 beforeAll(async () => {
-    await app.ready()
+    await app.ready();
     await User.create({
         first_name: 'Jorge',
         last_name: 'Ozuna',
