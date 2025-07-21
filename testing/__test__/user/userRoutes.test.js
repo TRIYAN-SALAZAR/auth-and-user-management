@@ -7,7 +7,7 @@ const email = 'test2@mail.com';
 const password = 'Jki90977_bidWE';
 
 let user;
-beforeAll(async() => {
+beforeAll(async () => {
     await app.ready();
     user = await User.create({
         first_name: 'Jorge',
@@ -18,17 +18,28 @@ beforeAll(async() => {
     });
 });
 
-afterAll(async() => {
+afterAll(async () => {
     await app.close();
-    await User.destroy({where: {email}});
+    await User.destroy({ where: { email } });
 });
 
 describe('EndPoints Users', () => {
-    test('PUT = change password', async () => {
+    test('PUT - change password', async () => {
         const response = await request(app.server)
             .put('/change-password')
-            .send({id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword:'hkadujkwa'})
-        
+            .send({ id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword: 'hkadujkwa' });
+
         expect(response.body.message).toMatch('Password updated successfully');
+    });
+
+    test('PUT - change email', async () => {
+        const response = await request(app.server)
+            .put('/change-email')
+            .send({ email, id: user.id });
+
+        const sr = await User.findOne({ where: { id: user.id } });
+
+        expect(sr.email).toMatch(email);
+        expect(response.body.message).toMatch('Email updated successfully');
     });
 });
