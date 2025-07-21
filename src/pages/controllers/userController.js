@@ -28,8 +28,9 @@ async function changePasswordController(request, reply) {
 async function changeEmailController(request, reply) {
     try {
         const server = request.server;
-        const { email } = request.body;
-        const result = await changeEmail(server, email);
+        const data = request.body;
+
+        const result = await changeEmail(server, data);
 
         reply.send({ message: result.message });
     } catch (error) {

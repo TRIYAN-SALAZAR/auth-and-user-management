@@ -5,7 +5,7 @@ import Hash from '../../utils/hash.js';
 async function changePassword(server, { id, password, newPassword, confirmNewPassword }) {
     try {
         const User = server.schema.User;
-        
+
         if (!id || !password || !newPassword || !confirmNewPassword) {
             const error = new Error('Missing required fields: id, password, newPassword, confirmNewPassword');
             error.status = 400;
@@ -50,15 +50,13 @@ async function changePassword(server, { id, password, newPassword, confirmNewPas
 async function changeEmail(server, { id, email }) {
     try {
         const User = server.schema.User;
-        const user = User.findOne({ where: { id } });
+        const user = User.update({ email }, { where: { id } });
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
             throw error;
         }
 
-        user.email = email;
-        await user.save();
         return { message: 'Email updated successfully' };
     } catch (error) {
         if (!error.status) {
@@ -71,32 +69,32 @@ async function changeEmail(server, { id, email }) {
     }
 }
 
-async function changeName(server, {id, first_name, last_name}) {
+async function changeName(server, { id, first_name, last_name }) {
     try {
         const User = server.schema.User;
-        
-        if(!id) {
+
+        if (!id) {
             const error = new Error("Missing userID");
             error.status = 404;
             throw error;
         }
-        
-        if(!first_name && !last_name) {
+
+        if (!first_name && !last_name) {
             const error = new Error("Missing Data");
             error.status = 404;
             throw error;
         }
 
         const user = User.findOne({ where: { id } });
-        
+
         if (!user) {
             const error = new Error('User not found');
             error.status = 404;
             throw error;
         }
-        
-        if(first_name) user.first_name = first_name;
-        if(last_name) user.last_name = last_name;
+
+        if (first_name) user.first_name = first_name;
+        if (last_name) user.last_name = last_name;
 
         await user.save();
         return { message: 'Name updated successfully' };
@@ -133,7 +131,7 @@ async function changeProfilePicture(server, { id, profilePicture }) {
 
 async function getDataUser(server, id) {
     try {
-        if(!id) {
+        if (!id) {
             const error = new Error("Missing User ID");
             error = 404;
             throw error;
