@@ -29,7 +29,8 @@ describe('EndPoints Users', () => {
             .put('/change-password')
             .send({ id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword: 'hkadujkwa' });
 
-        expect(response.body.message).toMatch('Password updated successfully');
+        const {message} = response.body;
+        expect(message).toMatch('Password updated successfully');
     });
 
     test('PUT - change email', async () => {
@@ -37,10 +38,11 @@ describe('EndPoints Users', () => {
             .put('/change-email')
             .send({ email, id: user.id });
 
+        const {message} = response.body;
         const sr = await User.findOne({ where: { id: user.id } });
 
         expect(sr.email).toMatch(email);
-        expect(response.body.message).toMatch('Email updated successfully');
+        expect(message).toMatch('Email updated successfully');
     });
 
     test('PUT - change name', async () => {
