@@ -42,4 +42,19 @@ describe('EndPoints Users', () => {
         expect(sr.email).toMatch(email);
         expect(response.body.message).toMatch('Email updated successfully');
     });
+
+    test('PUT - change name', async () => {
+        const response = await request(app.server)
+            .put('/change-name')
+            .send({
+                id: user.id, first_name: 'Alejandro', last_name: 'Salazar'
+            });
+
+        const { first_name, last_name } = await User.findOne({ where: { id: user.id } });
+        const { message } = response.body;
+
+        expect(message).toMatch('Name updated successfully');
+        expect(first_name).toMatch('Alejandro');
+        expect(last_name).toMatch('Salazar');
+    });
 });
