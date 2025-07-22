@@ -85,18 +85,12 @@ async function changeName(server, { id, first_name, last_name }) {
             throw error;
         }
 
-        const user = User.findOne({ where: { id } });
+        if (first_name && last_name) await User.update({first_name, last_name}, { where: { id } });
+        if (first_name) 
+            await User.update({first_name}, { where: { id } });
+        else
+            await User.update({last_name}, { where: { id } });
 
-        if (!user) {
-            const error = new Error('User not found');
-            error.status = 404;
-            throw error;
-        }
-
-        if (first_name) user.first_name = first_name;
-        if (last_name) user.last_name = last_name;
-
-        await user.save();
         return { message: 'Name updated successfully' };
     } catch (error) {
         if (!error.status) {
