@@ -29,7 +29,7 @@ describe('EndPoints Users', () => {
             .put('/change-password')
             .send({ id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword: 'hkadujkwa' });
 
-        const {message} = response.body;
+        const { message } = response.body;
         expect(message).toMatch('Password updated successfully');
     });
 
@@ -38,7 +38,7 @@ describe('EndPoints Users', () => {
             .put('/change-email')
             .send({ email, id: user.id });
 
-        const {message} = response.body;
+        const { message } = response.body;
         const sr = await User.findOne({ where: { id: user.id } });
 
         expect(sr.email).toMatch(email);
@@ -52,11 +52,23 @@ describe('EndPoints Users', () => {
                 id: user.id, first_name: 'Alejandro', last_name: 'Salazar'
             });
 
-        const { first_name, last_name } = await User.findOne({ where: { id: user.id } });
+        user = await User.findOne({ where: { id: user.id } });
+        const { first_name, last_name } = user;
         const { message } = response.body;
 
         expect(message).toMatch('Name updated successfully');
         expect(first_name).toMatch('Alejandro');
         expect(last_name).toMatch('Salazar');
+    });
+
+    test('GET - user/:userid', async () => {
+        const response = await request(app.server)
+            .get(`/user/${user.id}`);
+        console.log(response.body);
+        const { first_name, last_name, age } = response.body.user;
+
+        expect(first_name).toMatch(user.first_name);
+        expect(last_name).toMatch(user.last_name);
+        expect(age).toEqual(user.age);
     });
 });
