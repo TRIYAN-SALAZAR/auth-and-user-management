@@ -71,4 +71,23 @@ describe('EndPoints Users', () => {
         expect(last_name).toMatch(user.last_name);
         expect(age).toEqual(user.age);
     });
+
+    test('', async () => {
+        const response = await request(app.server)
+            .get('/users');
+
+        const { message, users } = response.body;
+
+        expect(message).toMatch('Get users succesfully');
+        users.forEach(user => {
+            expect(user).toEqual(
+                expect.objectContaining({
+                    id: expect.any(String),
+                    first_name: expect.any(String),
+                    last_name: expect.any(String),
+                    age: expect.any(Number),
+                })
+            );
+        });
+    });
 });
