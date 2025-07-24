@@ -64,7 +64,7 @@ describe('EndPoints Users', () => {
     test('GET - user/:userid', async () => {
         const response = await request(app.server)
             .get(`/user/${user.id}`);
-        console.log(response.body);
+
         const { first_name, last_name, age } = response.body.user;
 
         expect(first_name).toMatch(user.first_name);
