@@ -29,7 +29,8 @@ describe('EndPoints Users', () => {
             .put('/change-password')
             .send({ id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword: 'hkadujkwa' });
 
-        expect(response.body.message).toMatch('Password updated successfully');
+        const { message } = response.body;
+        expect(message).toMatch('Password updated successfully');
     });
 
     test('PUT - change email', async () => {
@@ -37,9 +38,56 @@ describe('EndPoints Users', () => {
             .put('/change-email')
             .send({ email, id: user.id });
 
+        const { message } = response.body;
         const sr = await User.findOne({ where: { id: user.id } });
 
         expect(sr.email).toMatch(email);
-        expect(response.body.message).toMatch('Email updated successfully');
+        expect(message).toMatch('Email updated successfully');
+    });
+
+    test('PUT - change name', async () => {
+        const response = await request(app.server)
+            .put('/change-name')
+            .send({
+                id: user.id, first_name: 'Alejandro', last_name: 'Salazar'
+            });
+
+        user = await User.findOne({ where: { id: user.id } });
+        const { first_name, last_name } = user;
+        const { message } = response.body;
+
+        expect(message).toMatch('Name updated successfully');
+        expect(first_name).toMatch('Alejandro');
+        expect(last_name).toMatch('Salazar');
+    });
+
+    test('GET - user/:userid', async () => {
+        const response = await request(app.server)
+            .get(`/user/${user.id}`);
+
+        const { first_name, last_name, age } = response.body.user;
+
+        expect(first_name).toMatch(user.first_name);
+        expect(last_name).toMatch(user.last_name);
+        expect(age).toEqual(user.age);
+    });
+
+    test('', async () => {
+        const response = await request(app.server)
+            .get('/users');
+
+        const { message, users } = response.body;
+
+        expect(message).toMatch('Get users succesfully');
+        users.forEach(user => {
+            expect(user).toEqual(
+                expect.objectContaining({
+                    id: expect.any(String),
+                    first_name: expect.any(String),
+                    last_name: expect.any(String),
+                    age: expect.any(Number),
+                })
+            );
+        });
     });
 });

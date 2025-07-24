@@ -58,7 +58,7 @@ async function getDataUserController(request, reply) {
     try {
         const server = request.server;
         const user = await getDataUser(server, request.params.userid);
-        reply.send({ message: "User get data", user: user });
+        reply.send(user);
 
     } catch (error) {
         reply.status(error.status).send(error);
