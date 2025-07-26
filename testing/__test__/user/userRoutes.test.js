@@ -23,17 +23,9 @@ afterAll(async () => {
     await User.destroy({ where: { email } });
 });
 
-describe('EndPoints Users', () => {
-    test('PUT - change password', async () => {
-        const response = await request(app.server)
-            .put('/change-password')
-            .send({ id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword: 'hkadujkwa' });
+describe('UNIT CASES TO END-POINT PUT /change-email', function () {
 
-        const { message } = response.body;
-        expect(message).toMatch('Password updated successfully');
-    });
-
-    test('PUT - change email', async () => {
+    test('PUT - change email', async function () {
         const response = await request(app.server)
             .put('/change-email')
             .send({ email, id: user.id });
@@ -44,8 +36,11 @@ describe('EndPoints Users', () => {
         expect(sr.email).toMatch(email);
         expect(message).toMatch('Email updated successfully');
     });
+});
 
-    test('PUT - change name', async () => {
+describe('UNIT CASES TO END-POINT PUT /change-name', function () {
+
+    test('PUT - change name', async function () {
         const response = await request(app.server)
             .put('/change-name')
             .send({
@@ -60,8 +55,11 @@ describe('EndPoints Users', () => {
         expect(first_name).toMatch('Alejandro');
         expect(last_name).toMatch('Salazar');
     });
+});
 
-    test('GET - user/:userid', async () => {
+describe('UNIT CASES TO END-POINT GET /user/:userid', function () {
+
+    test('GET - user/:userid', async function () {
         const response = await request(app.server)
             .get(`/user/${user.id}`);
 
@@ -71,8 +69,11 @@ describe('EndPoints Users', () => {
         expect(last_name).toMatch(user.last_name);
         expect(age).toEqual(user.age);
     });
+});
 
-    test('', async () => {
+describe('UNIT CASES TO END-POINT GET ALL /users', function () {
+
+    test('GET - all users', async function () {
         const response = await request(app.server)
             .get('/users');
 
@@ -89,5 +90,17 @@ describe('EndPoints Users', () => {
                 })
             );
         });
+    });
+});
+
+describe('UNIT CASES TO END-POINT PUT /change-password', function () {
+
+    test('PUT - change password', async function () {
+        const response = await request(app.server)
+            .put('/change-password')
+            .send({ id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword: 'hkadujkwa' });
+
+        const { message } = response.body;
+        expect(message).toMatch('Password updated successfully');
     });
 });
