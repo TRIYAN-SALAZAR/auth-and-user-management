@@ -23,8 +23,8 @@ afterAll(async () => {
     await User.destroy({ where: { email } });
 });
 
-describe('EndPoints Users', () => {
-    test('PUT - change email', async () => {
+describe('EndPoints Users', function () {
+    test('PUT - change email', async function () {
         const response = await request(app.server)
             .put('/change-email')
             .send({ email, id: user.id });
@@ -36,7 +36,7 @@ describe('EndPoints Users', () => {
         expect(message).toMatch('Email updated successfully');
     });
 
-    test('PUT - change name', async () => {
+    test('PUT - change name', async function () {
         const response = await request(app.server)
             .put('/change-name')
             .send({
@@ -52,7 +52,7 @@ describe('EndPoints Users', () => {
         expect(last_name).toMatch('Salazar');
     });
 
-    test('GET - user/:userid', async () => {
+    test('GET - user/:userid', async function () {
         const response = await request(app.server)
             .get(`/user/${user.id}`);
 
@@ -63,7 +63,7 @@ describe('EndPoints Users', () => {
         expect(age).toEqual(user.age);
     });
 
-    test('GET - all users', async () => {
+    test('GET - all users', async function () {
         const response = await request(app.server)
             .get('/users');
 
