@@ -23,7 +23,8 @@ afterAll(async () => {
     await User.destroy({ where: { email } });
 });
 
-describe('EndPoints Users', function () {
+describe('UNIT CASES TO END-POINT PUT /change-email', function () {
+
     test('PUT - change email', async function () {
         const response = await request(app.server)
             .put('/change-email')
@@ -35,6 +36,9 @@ describe('EndPoints Users', function () {
         expect(sr.email).toMatch(email);
         expect(message).toMatch('Email updated successfully');
     });
+});
+
+describe('UNIT CASES TO END-POINT PUT /change-name', function () {
 
     test('PUT - change name', async function () {
         const response = await request(app.server)
@@ -51,6 +55,9 @@ describe('EndPoints Users', function () {
         expect(first_name).toMatch('Alejandro');
         expect(last_name).toMatch('Salazar');
     });
+});
+
+describe('UNIT CASES TO END-POINT GET /user/:userid', function () {
 
     test('GET - user/:userid', async function () {
         const response = await request(app.server)
@@ -62,6 +69,9 @@ describe('EndPoints Users', function () {
         expect(last_name).toMatch(user.last_name);
         expect(age).toEqual(user.age);
     });
+});
+
+describe('UNIT CASES TO END-POINT GET ALL /users', function () {
 
     test('GET - all users', async function () {
         const response = await request(app.server)
