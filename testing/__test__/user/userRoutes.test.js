@@ -63,7 +63,7 @@ describe('EndPoints Users', () => {
         expect(age).toEqual(user.age);
     });
 
-    test('', async () => {
+    test('GET - all users', async () => {
         const response = await request(app.server)
             .get('/users');
 
