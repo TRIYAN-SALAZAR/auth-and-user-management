@@ -24,15 +24,6 @@ afterAll(async () => {
 });
 
 describe('EndPoints Users', () => {
-    test('PUT - change password', async () => {
-        const response = await request(app.server)
-            .put('/change-password')
-            .send({ id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword: 'hkadujkwa' });
-
-        const { message } = response.body;
-        expect(message).toMatch('Password updated successfully');
-    });
-
     test('PUT - change email', async () => {
         const response = await request(app.server)
             .put('/change-email')
@@ -89,5 +80,17 @@ describe('EndPoints Users', () => {
                 })
             );
         });
+    });
+});
+
+describe('UNIT CASES TO END-POINT PUT /change-password', function () {
+
+    test('PUT - change password', async function () {
+        const response = await request(app.server)
+            .put('/change-password')
+            .send({ id: user.id, password, newPassword: 'hkadujkwa', confirmNewPassword: 'hkadujkwa' });
+
+        const { message } = response.body;
+        expect(message).toMatch('Password updated successfully');
     });
 });
